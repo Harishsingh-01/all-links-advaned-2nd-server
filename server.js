@@ -24,6 +24,11 @@ app.use(express.json());
 // Routes
 app.use('/api/projects', projectRoutes);
 
+
+app.get("/health", (req, res) => {
+  res.status(200).send("Server is alive 🚀");
+});
+
 // MongoDB Connection
 mongoose
   .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/project-hub', {
