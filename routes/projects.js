@@ -1,5 +1,6 @@
 import express from 'express';
 import Project from '../models/Project.js';
+import auth from '../middleware/auth.js'
 
 const router = express.Router();
 
@@ -26,8 +27,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create project
-router.post('/', async (req, res) => {
+// Create project (protected)
+router.post('/', auth, async (req, res) => {
   try {
     const project = new Project(req.body);
     const savedProject = await project.save();
@@ -37,8 +38,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update project
-router.put('/:id', async (req, res) => {
+// Update project (protected)
+router.put('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(
       req.params.id,
@@ -54,8 +55,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Delete project
-router.delete('/:id', async (req, res) => {
+// Delete project (protected)
+router.delete('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findByIdAndDelete(req.params.id);
     if (!project) {
